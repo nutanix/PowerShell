@@ -10,14 +10,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Management.Automation;
 
@@ -44,8 +38,8 @@ namespace Nutanix.PowerShell.SDK
     {
       if (string.IsNullOrEmpty(Server) || NtnxUtil.PSCreds == null)
       {
-        // TODO: throw exception.
-        return null;
+        throw new NtnxException($"Either passed null server ({Server}) or credentials ({NtnxUtil.PSCreds})");
+        //return null;
       }
 
       HttpResponseMessage result;
@@ -66,8 +60,13 @@ namespace Nutanix.PowerShell.SDK
               requestMethod);
       }
 
-      string resultContent = result.Content.ReadAsStringAsync().Result;
-      return JsonConvert.DeserializeObject(resultContent);
+      if (result.IsSuccessStatusCode)
+      {
+        string resultContent = result.Content.ReadAsStringAsync().Result;
+        return JsonConvert.DeserializeObject(resultContent);
+      }
+      else
+        throw new NtnxException($"REST API request failed with {result.StatusCode}");
     }
 
     public static T[] FromJson<T>(dynamic json, Func<dynamic, T> creator)
@@ -77,9 +76,10 @@ namespace Nutanix.PowerShell.SDK
 
     public static dynamic PassThroughNonNull(string nullcheck)
     {
-      if (nullcheck == null)
+      if (String.IsNullOrEmpty(nullcheck))
       {
-        throw new NtnxException();
+        return false;
+        //throw new NtnxException();
       }
 
       return true;

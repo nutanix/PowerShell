@@ -11,9 +11,9 @@
 using System;
 using System.Globalization;
 using System.Management.Automation;
-
+using System.Threading.Tasks;
+using System.Collections.Concurrent;
 using Newtonsoft.Json;
-
 namespace Nutanix.PowerShell.SDK
 {
   // VMware's struct definition.
@@ -52,6 +52,7 @@ namespace Nutanix.PowerShell.SDK
       MemoryMB = json.spec.resources.memory_size_mib;
       NumVcpusPerSocket = json.spec.resources.num_vcpus_per_socket;
       HardwareClockTimezone = json.spec.resources.hardware_clock_timezone;
+      PowerState = json.spec.resources.power_state;
       Uuid = json.metadata.uuid;
     }
   }
@@ -271,17 +272,50 @@ namespace Nutanix.PowerShell.SDK
     // Grab all VMs.
     public static Vm[] GetAllVms()
     {
-      var json = NtnxUtil.RestCall("vms/list", "POST", "{}");
-      if (json.entities.Count == 0)
+      int pageSize = 20;
+      int total_count = 0;
+
+      string request = @"{
+            ""kind"": ""vm"",
+            ""offset"": 0,
+            ""length"": 1
+      }";
+
+      var json = NtnxUtil.RestCall("vms/list", "POST", request);
+
+      if (json == null || json.entities == null || json.metadata == null)
+      {
+                throw new NtnxException("REST API call likely failed or server response does not contain needed information");
+      }
+
+      total_count = json.metadata.total_matches;
+
+      if (total_count == 0)
       {
         return Array.Empty<Vm>();
       }
 
-      Vm[] vms = new Vm[json.entities.Count];
-      for (int i = 0; i < json.entities.Count; ++i)
+      //Vm[] vms = new Vm[json.entities.Count];
+      Vm[] vms = new Vm[total_count];
+      int index = 0;
+      Parallel.ForEach(Partitioner.Create(0, total_count, pageSize), range =>
       {
-        vms[i] = new Vm(json.entities[i]);
-      }
+        request = @"{
+            ""kind"": ""vm"",
+            ""offset"": " + range.Item1.ToString() + @",
+            ""length"": 20
+          }";
+
+        var jsonParallel = NtnxUtil.RestCall("vms/list", "POST", request);
+
+        for (int i = 0; i < jsonParallel.entities.Count; i++)
+        {
+          lock (vms) {
+            vms[range.Item1 + i] = new Vm(jsonParallel.entities[i]);
+            }
+        }
+
+      });
 
       return vms;
     }
