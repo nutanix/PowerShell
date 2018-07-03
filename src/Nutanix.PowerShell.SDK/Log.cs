@@ -15,7 +15,7 @@ namespace Nutanix.PowerShell.SDK
                           [CallerLineNumber] int line = 0)
     {
       string logFolder = Path.GetTempPath();
-      string logFileName = String.Format("NTNXCmdlets-{0:yyyy-MM-dd}.log", DateTime.Now);
+      string logFileName = string.Format("NTNXCmdlets-{0:yyyy-MM-dd}.log", DateTime.Now);
       string logFile = Path.Combine(logFolder, logFileName);
 
       using (StreamWriter w = File.AppendText(logFile))

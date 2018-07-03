@@ -42,19 +42,19 @@ namespace Nutanix.PowerShell.SDK
       // Special property 'json' stores the original json.
       this.Json = json;
       this.Json.api_version = "3.1";
-      SetFromJson(json);
+      this.SetFromJson(json);
     }
 
     public void SetFromJson(dynamic json)
     {
       // Fill in field.
-      Name = json.spec.name;
-      NumSockets = json.spec.resources.num_sockets;
-      MemoryMB = json.spec.resources.memory_size_mib;
-      NumVcpusPerSocket = json.spec.resources.num_vcpus_per_socket;
-      HardwareClockTimezone = json.spec.resources.hardware_clock_timezone;
-      PowerState = json.spec.resources.power_state;
-      Uuid = json.metadata.uuid;
+      this.Name = json.spec.name;
+      this.NumSockets = json.spec.resources.num_sockets;
+      this.MemoryMB = json.spec.resources.memory_size_mib;
+      this.NumVcpusPerSocket = json.spec.resources.num_vcpus_per_socket;
+      this.HardwareClockTimezone = json.spec.resources.hardware_clock_timezone;
+      this.PowerState = json.spec.resources.power_state;
+      this.Uuid = json.metadata.uuid;
     }
   }
 
@@ -298,10 +298,9 @@ namespace Nutanix.PowerShell.SDK
 
       Vm[] vms = new Vm[total_count];
       Parallel.ForEach(
-        Partitioner.Create(0, total_count, pageSize), 
-        new ParallelOptions { MaxDegreeOfParallelism = 4 }, 
-        range =>
-        {
+        Partitioner.Create(0, total_count, pageSize),
+        new ParallelOptions { MaxDegreeOfParallelism = 4 },
+        range => {
           request = @"{
               ""kind"": ""vm"",
               ""offset"": " + range.Item1.ToString() + @",
@@ -317,8 +316,7 @@ namespace Nutanix.PowerShell.SDK
               vms[range.Item1 + i] = new Vm(jsonParallel.entities[i]);
             }
           }
-        }
-      );
+        });
 
       return vms;
     }

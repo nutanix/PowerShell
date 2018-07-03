@@ -58,6 +58,8 @@ namespace Nutanix.PowerShell.SDK
   [CmdletAttribute(VerbsCommunications.Connect, "Cluster")]
   public class ConnectClusterCmdlet : Cmdlet
   {
+    private bool acceptInvalidSslCerts;
+
     [Parameter]
     public string Server { get; set; }
 
@@ -73,15 +75,8 @@ namespace Nutanix.PowerShell.SDK
     [Parameter]
     public SwitchParameter AcceptInvalidSslCerts
     {
-      get { return acceptInvalidSslCerts; }
-      set { acceptInvalidSslCerts = value; }
-    }
-
-    private bool acceptInvalidSslCerts;
-
-    protected override void ProcessRecord()
-    {
-      Connect(Server, UserName, Password, acceptInvalidSslCerts);
+      get { return this.acceptInvalidSslCerts; }
+      set { this.acceptInvalidSslCerts = value; }
     }
 
     // Save authentication info.
@@ -118,6 +113,11 @@ namespace Nutanix.PowerShell.SDK
       client.DefaultRequestHeaders.Add(
         "X-Nutanix-Client-Type", "Nutanix.PowerShell.SDK");
       NtnxUtil.Client = client;
+    }
+
+    protected override void ProcessRecord()
+    {
+      Connect(Server, UserName, Password, acceptInvalidSslCerts);
     }
   }
 }

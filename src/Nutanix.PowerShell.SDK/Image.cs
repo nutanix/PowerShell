@@ -37,15 +37,17 @@ namespace Nutanix.PowerShell.SDK
       this.Json.Property("status").Remove();
       this.Json.api_version = "3.1";
 
-      Name = json.spec.name;
-      Uuid = json.metadata.uuid;
-      Uid = Uuid;
+      this.Name = json.spec.name;
+      this.Uuid = json.metadata.uuid;
+      this.Uid = this.Uuid;
     }
   }
 
   [CmdletAttribute(VerbsCommon.New, "Image")]
   public class NewImageCmdlet : Cmdlet
   {
+    private bool runAsync;
+
     [Parameter]
     public string Name { get; set; }
 
@@ -58,11 +60,9 @@ namespace Nutanix.PowerShell.SDK
     [Parameter]
     public SwitchParameter RunAsync
     {
-      get { return runAsync; }
-      set { runAsync = value; }
+      get { return this.runAsync; }
+      set { this.runAsync = value; }
     }
-
-    private bool runAsync;
 
     protected override void ProcessRecord()
     {
@@ -72,20 +72,20 @@ namespace Nutanix.PowerShell.SDK
       ""api_version"": ""3.1"",
       ""metadata"": {
         ""kind"": ""image"",
-        ""name"": """ + Name + @"""
+        ""name"": """ + this.Name + @"""
       },
       ""spec"": {
-        ""description"": """ + Description + @""",
-        ""name"": """ + Name + @""",
+        ""description"": """ + this.Description + @""",
+        ""name"": """ + this.Name + @""",
         ""resources"": {
           ""image_type"": ""DISK_IMAGE"",
-          ""source_uri"": """ + URL + @"""
+          ""source_uri"": """ + this.URL + @"""
         }
       }
     }";
 
       var task = Task.FromUuidInJson(NtnxUtil.RestCall(url, method, str));
-      if (runAsync)
+      if (this.runAsync)
       {
         WriteObject(task);
       }
