@@ -9,11 +9,12 @@
 //   Alex Guo    (Nutanix, mallochine)
 
 using System;
+using System.Collections.Concurrent;
 using System.Globalization;
 using System.Management.Automation;
 using System.Threading.Tasks;
-using System.Collections.Concurrent;
 using Newtonsoft.Json;
+
 namespace Nutanix.PowerShell.SDK
 {
   // VMware's struct definition.
@@ -296,8 +297,7 @@ namespace Nutanix.PowerShell.SDK
       }
 
       Vm[] vms = new Vm[total_count];
-      Parallel.ForEach(Partitioner.Create(0, total_count, pageSize), range =>
-      {
+      Parallel.ForEach(Partitioner.Create(0, total_count, pageSize), range => {
         request = @"{
             ""kind"": ""vm"",
             ""offset"": " + range.Item1.ToString() + @",
@@ -308,12 +308,13 @@ namespace Nutanix.PowerShell.SDK
 
         for (int i = 0; i < jsonParallel.entities.Count; i++)
         {
-          lock (vms) {
+          lock (vms)
+          {
             vms[range.Item1 + i] = new Vm(jsonParallel.entities[i]);
-            }
+          }
         }
-
-      });
+      }
+      );
 
       return vms;
     }
