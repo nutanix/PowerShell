@@ -297,23 +297,27 @@ namespace Nutanix.PowerShell.SDK
       }
 
       Vm[] vms = new Vm[total_count];
-      Parallel.ForEach(Partitioner.Create(0, total_count, pageSize), new ParallelOptions { MaxDegreeOfParallelism = 4 }, range => {
-        request = @"{
-            ""kind"": ""vm"",
-            ""offset"": " + range.Item1.ToString() + @",
-            ""length"": 20
-          }";
-
-        var jsonParallel = NtnxUtil.RestCall("vms/list", "POST", request);
-
-        for (int i = 0; i < jsonParallel.entities.Count; i++)
+      Parallel.ForEach(
+        Partitioner.Create(0, total_count, pageSize), 
+        new ParallelOptions { MaxDegreeOfParallelism = 4 }, 
+        range =>
         {
-          lock (vms)
+          request = @"{
+              ""kind"": ""vm"",
+              ""offset"": " + range.Item1.ToString() + @",
+              ""length"": 20
+            }";
+
+          var jsonParallel = NtnxUtil.RestCall("vms/list", "POST", request);
+
+          for (int i = 0; i < jsonParallel.entities.Count; i++)
           {
-            vms[range.Item1 + i] = new Vm(jsonParallel.entities[i]);
+            lock (vms)
+            {
+              vms[range.Item1 + i] = new Vm(jsonParallel.entities[i]);
+            }
           }
         }
-      }
       );
 
       return vms;
