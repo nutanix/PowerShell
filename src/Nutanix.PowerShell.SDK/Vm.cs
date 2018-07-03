@@ -295,9 +295,7 @@ namespace Nutanix.PowerShell.SDK
         return Array.Empty<Vm>();
       }
 
-      //Vm[] vms = new Vm[json.entities.Count];
       Vm[] vms = new Vm[total_count];
-      int index = 0;
       Parallel.ForEach(Partitioner.Create(0, total_count, pageSize), range =>
       {
         request = @"{

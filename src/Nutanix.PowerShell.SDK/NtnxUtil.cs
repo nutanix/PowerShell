@@ -39,7 +39,6 @@ namespace Nutanix.PowerShell.SDK
       if (string.IsNullOrEmpty(Server) || NtnxUtil.PSCreds == null)
       {
         throw new NtnxException($"Either passed null server ({Server}) or credentials ({NtnxUtil.PSCreds})");
-        //return null;
       }
 
       HttpResponseMessage result;
@@ -66,7 +65,9 @@ namespace Nutanix.PowerShell.SDK
         return JsonConvert.DeserializeObject(resultContent);
       }
       else
+      {
         throw new NtnxException($"REST API request failed with {result.StatusCode}");
+      }
     }
 
     public static T[] FromJson<T>(dynamic json, Func<dynamic, T> creator)
@@ -79,7 +80,6 @@ namespace Nutanix.PowerShell.SDK
       if (String.IsNullOrEmpty(nullcheck))
       {
         return false;
-        //throw new NtnxException();
       }
 
       return true;
