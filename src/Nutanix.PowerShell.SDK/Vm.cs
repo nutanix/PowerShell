@@ -297,7 +297,7 @@ namespace Nutanix.PowerShell.SDK
       }
 
       Vm[] vms = new Vm[total_count];
-      Parallel.ForEach(Partitioner.Create(0, total_count, pageSize), range => {
+      Parallel.ForEach(Partitioner.Create(0, total_count, pageSize), new ParallelOptions { MaxDegreeOfParallelism = 4 }, range => {
         request = @"{
             ""kind"": ""vm"",
             ""offset"": " + range.Item1.ToString() + @",
