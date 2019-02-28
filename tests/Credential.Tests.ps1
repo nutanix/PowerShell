@@ -1,15 +1,10 @@
 # Pull In Mocking Support
 . "$PSScriptRoot/HttpPipelineMocking.ps1"
 
-# Run Some tests
-# example:
-
 
 
 Describe 'New-NutanixCredential Tests' {
     It "Should contain the correct fields" {
-        # MAKE SUIRE YOU USE  -HttpPipelineAppend $mock with the cmdlet!
-        # (get-operation -HttpPipelineAppend $mock).length | Should -be 11
         $credential = New-NutanixCredential -Username admin -Password Password -ServerUri https://localhost:9440
         $credential.Username | Should -be "admin"
         $credential.Port | Should -be "9440"

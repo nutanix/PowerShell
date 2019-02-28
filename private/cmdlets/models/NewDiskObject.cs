@@ -88,8 +88,6 @@ namespace Nutanix.Powershell.ModelCmdlets
 
         protected override void ProcessRecord()
         {
-            _disk.DataSourceReference = _disk.DataSourceReference ?? new Nutanix.Powershell.Models.Reference();
-            _disk.DataSourceReference.Kind = "value";
             WriteObject(_disk);
         }
     }

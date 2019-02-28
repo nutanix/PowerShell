@@ -1382,10 +1382,13 @@ namespace Nutanix.Powershell
 
                 await eventListener.Signal(Microsoft.Rest.ClientRuntime.Events.HeaderParametersAdded, _url); if( eventListener.Token.IsCancellationRequested ) { return; }
 
+                System.Console.WriteLine($"{credential.Username}:{CreateString(credential.Password)}");
+
                 var byteArray = System.Text.Encoding.ASCII.GetBytes($"{credential.Username}:{CreateString(credential.Password)}");
 
                 request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", System.Convert.ToBase64String(byteArray));
                 // set body content
+                System.Console.WriteLine(body.ToJson(null).ToString());
                 request.Content = new System.Net.Http.StringContent(null != body ? body.ToJson(null).ToString() : @"{}", System.Text.Encoding.UTF8);
                 request.Content.Headers.ContentType = System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json");
                 await eventListener.Signal(Microsoft.Rest.ClientRuntime.Events.BodyContentSet, _url); if( eventListener.Token.IsCancellationRequested ) { return; }

@@ -82,10 +82,10 @@ namespace Nutanix.Powershell.ModelCmdlets
         protected override void ProcessRecord()
         {
             _vm.ClusterReference.Kind = "cluster";
-            _vm.AvailabilityZoneReference = _vm.AvailabilityZoneReference ?? new Nutanix.Powershell.Models.AvailabilityZoneReference();
-            _vm.AvailabilityZoneReference.Kind = "availability_zone";
-            _vm.ClusterReference = _vm.ClusterReference ?? new Nutanix.Powershell.Models.ClusterReference();
-            _vm.ClusterReference.Kind = "cluster_reference";
+            // _vm.AvailabilityZoneReference = _vm.AvailabilityZoneReference ?? new Nutanix.Powershell.Models.AvailabilityZoneReference();
+            // _vm.AvailabilityZoneReference.Kind = "availability_zone";
+            // _vm.ClusterReference = _vm.ClusterReference ?? new Nutanix.Powershell.Models.ClusterReference();
+            // _vm.ClusterReference.Kind = "cluster";
             WriteObject(_vm);
         }
     }

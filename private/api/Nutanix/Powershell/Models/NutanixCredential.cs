@@ -9,11 +9,11 @@ namespace Nutanix.Powershell.Models
 
 
         private System.Uri _serverUri;
-        public System.Uri Uri { 
-            get 
+        public System.Uri Uri {
+            get
             {
                 return this._serverUri;
-            } 
+            }
             set
             {
                 Port = value.Port.ToString();
@@ -21,7 +21,7 @@ namespace Nutanix.Powershell.Models
                 Server = value.Host;
                 this._serverUri = value;
 
-            } 
+            }
         }
 
         public System.Security.SecureString Password { set; get; }
@@ -32,7 +32,7 @@ namespace Nutanix.Powershell.Models
             Port = port ?? "9440";
             Protocol = protocol ?? "http";
 
-            var _uri = new System.Uri($"{Protocol}://{Server}:{Port}"); 
+            var _uri = new System.Uri($"{Protocol}://{Server}:{Port}");
             Uri = _uri;
 
 
@@ -43,18 +43,19 @@ namespace Nutanix.Powershell.Models
             if (password.Length > 0 ) {
                 foreach (char c in password)
                         result.AppendChar(c);
-            }   
+            }
             Password = result;
         }
 
         public NutanixCredential(string uri, string username, System.Security.SecureString password)
         {
-            var _uri = new System.Uri(uri); 
-            Uri = _uri;  
+            var _uri = new System.Uri(uri);
+            Uri = _uri;
             Password = password;
+            Username = username;
         }
 
         public NutanixCredential(){}
-                    
+
     }
 }

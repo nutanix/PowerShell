@@ -3,11 +3,11 @@
     $instance =  [Nutanix.Powershell.Module]::Instance
 
     # load nested script module if it exists
-    if( test-path "$PSScriptRoot/bin/NutanixIntentfulAPI.scripts.psm1" )  {
-        ipmo "$PSScriptRoot/bin/NutanixIntentfulAPI.scripts.psm1"
+    if( test-path "$PSScriptRoot/bin/Nutanix.scripts.psm1" )  {
+        ipmo "$PSScriptRoot/bin/Nutanix.scripts.psm1"
     }
 
-    $privatemodule = ipmo -passthru "$PSScriptRoot/bin/NutanixIntentfulAPI.private.dll"
+    $privatemodule = ipmo -passthru "$PSScriptRoot/bin/Nutanix.private.dll"
     # export the 'exported' cmdlets
     Get-ChildItem "$PSScriptRoot/exported" -Recurse -Filter "*.ps1" -File | Sort-Object Name | Foreach {
         Write-Verbose "Dot sourcing private script file: $($_.Name)"
@@ -20,5 +20,5 @@
 # region Finalization
     # finish initialization of this module
     $instance.Init();
-  
+
 # endregion

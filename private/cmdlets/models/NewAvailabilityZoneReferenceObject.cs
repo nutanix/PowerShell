@@ -32,7 +32,6 @@ namespace Nutanix.Powershell.ModelCmdlets
 
         protected override void ProcessRecord()
         {
-            _availabilityZoneReference.Kind = "availability_zone";
             WriteObject(_availabilityZoneReference);
         }
     }

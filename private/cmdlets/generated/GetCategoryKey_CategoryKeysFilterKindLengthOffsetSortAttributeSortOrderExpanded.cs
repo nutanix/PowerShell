@@ -272,7 +272,7 @@ namespace Nutanix.Powershell.Cmdlets
         /// </returns>
         protected async System.Threading.Tasks.Task ProcessRecordAsync()
         {
-            GetEntitiesRequestBody.Kind = "category_key";
+            GetEntitiesRequestBody.Kind = "category";
             using( NoSynchronizationContext )
             {
                 await ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletGetPipeline); if( ((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested ) { return; }

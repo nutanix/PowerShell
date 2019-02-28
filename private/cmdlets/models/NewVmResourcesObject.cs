@@ -265,8 +265,6 @@ namespace Nutanix.Powershell.ModelCmdlets
 
         protected override void ProcessRecord()
         {
-            _vmResources.ParentReference = _vmResources.ParentReference ?? new Nutanix.Powershell.Models.Reference();
-            _vmResources.ParentReference.Kind = "parent_reference";
             WriteObject(_vmResources);
         }
     }
