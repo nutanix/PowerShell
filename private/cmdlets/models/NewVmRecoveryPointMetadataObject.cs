@@ -118,11 +118,11 @@ namespace Nutanix.Powershell.ModelCmdlets
         protected override void ProcessRecord()
         {
             _vmRecoveryPointMetadata.ProjectReference = _vmRecoveryPointMetadata.ProjectReference ?? new Nutanix.Powershell.Models.ProjectReference();
-            _vmRecoveryPointMetadata.ProjectReference.Kind = "project_reference";
-            _vmRecoveryPointMetadata.ProjectReference.Kind = "project";
-            _vmRecoveryPointMetadata.Kind = "metadata";
-            _vmRecoveryPointMetadata.OwnerReference.Kind = "owner";
-            _vmRecoveryPointMetadata.Kind = "recovery_point";
+            // _vmRecoveryPointMetadata.ProjectReference.Kind = "project_reference";
+            // _vmRecoveryPointMetadata.ProjectReference.Kind = "project";
+            // _vmRecoveryPointMetadata.Kind = "metadata";
+            // _vmRecoveryPointMetadata.OwnerReference.Kind = "owner";
+            // _vmRecoveryPointMetadata.Kind = "recovery_point";
             WriteObject(_vmRecoveryPointMetadata);
         }
     }

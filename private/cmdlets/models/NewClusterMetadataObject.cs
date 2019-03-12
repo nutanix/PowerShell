@@ -99,11 +99,11 @@ namespace Nutanix.Powershell.ModelCmdlets
 
         protected override void ProcessRecord()
         {
-            _clusterMetadata.ProjectReference = _clusterMetadata.ProjectReference ?? new Nutanix.Powershell.Models.ProjectReference();
-            _clusterMetadata.OwnerReference.Kind = "owner_reference";
-            _clusterMetadata.ProjectReference = _clusterMetadata.ProjectReference ?? new Nutanix.Powershell.Models.ProjectReference();
-            _clusterMetadata.ProjectReference.Kind = "project_reference";
-            _clusterMetadata.Kind = "cluster";
+            // _clusterMetadata.ProjectReference = _clusterMetadata.ProjectReference ?? new Nutanix.Powershell.Models.ProjectReference();
+            // _clusterMetadata.OwnerReference.Kind = "owner_reference";
+            // _clusterMetadata.ProjectReference = _clusterMetadata.ProjectReference ?? new Nutanix.Powershell.Models.ProjectReference();
+            // _clusterMetadata.ProjectReference.Kind = "project_reference";
+            // _clusterMetadata.Kind = "cluster";
             WriteObject(_clusterMetadata);
         }
     }

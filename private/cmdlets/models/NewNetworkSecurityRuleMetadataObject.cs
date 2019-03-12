@@ -120,10 +120,10 @@ namespace Nutanix.Powershell.ModelCmdlets
         protected override void ProcessRecord()
         {
             _networkSecurityRuleMetadata.Kind = "security_rule";
-            _networkSecurityRuleMetadata.ProjectReference = _networkSecurityRuleMetadata.ProjectReference ?? new Nutanix.Powershell.Models.ProjectReference();
-            _networkSecurityRuleMetadata.ProjectReference.Kind = "project_reference";
-            _networkSecurityRuleMetadata.OwnerReference = _networkSecurityRuleMetadata.OwnerReference ?? new Nutanix.Powershell.Models.UserReference();
-            _networkSecurityRuleMetadata.OwnerReference.Kind = "owner_reference";
+            // _networkSecurityRuleMetadata.ProjectReference = _networkSecurityRuleMetadata.ProjectReference ?? new Nutanix.Powershell.Models.ProjectReference();
+            // _networkSecurityRuleMetadata.ProjectReference.Kind = "project_reference";
+            // _networkSecurityRuleMetadata.OwnerReference = _networkSecurityRuleMetadata.OwnerReference ?? new Nutanix.Powershell.Models.UserReference();
+            // _networkSecurityRuleMetadata.OwnerReference.Kind = "owner_reference";
             WriteObject(_networkSecurityRuleMetadata);
         }
     }

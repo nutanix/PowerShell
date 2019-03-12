@@ -117,11 +117,11 @@ namespace Nutanix.Powershell.ModelCmdlets
 
         protected override void ProcessRecord()
         {
-            _subnetMetadata.ProjectReference = _subnetMetadata.ProjectReference ?? new Nutanix.Powershell.Models.ProjectReference();
-            _subnetMetadata.ProjectReference.Kind = "project_reference";
+            // _subnetMetadata.ProjectReference = _subnetMetadata.ProjectReference ?? new Nutanix.Powershell.Models.ProjectReference();
+            // _subnetMetadata.ProjectReference.Kind = "project_reference";
             _subnetMetadata.Kind = "subnet";
-            _subnetMetadata.OwnerReference = _subnetMetadata.OwnerReference ?? new Nutanix.Powershell.Models.UserReference();
-            _subnetMetadata.OwnerReference.Kind = "owner_reference";
+            // _subnetMetadata.OwnerReference = _subnetMetadata.OwnerReference ?? new Nutanix.Powershell.Models.UserReference();
+            // _subnetMetadata.OwnerReference.Kind = "owner_reference";
             WriteObject(_subnetMetadata);
         }
     }
