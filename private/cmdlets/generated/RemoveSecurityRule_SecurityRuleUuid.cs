@@ -208,16 +208,44 @@ namespace Nutanix.Powershell.Cmdlets
             using( NoSynchronizationContext )
             {
                 await ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletGetPipeline); if( ((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested ) { return; }
-                Pipeline = Nutanix.Powershell.Module.Instance.CreatePipeline(this.MyInvocation.BoundParameters);
-                if (SkipSSL.ToBool())
-                {
+                if (this.SkipSSL.ToBool()) {
                     Pipeline = Nutanix.Powershell.Module.Instance.CreatePipelineWithProxy(this.MyInvocation.BoundParameters);
-                }
-                else
-                {
+                } else {
                     Pipeline = Nutanix.Powershell.Module.Instance.CreatePipeline(this.MyInvocation.BoundParameters);
                 }
-                // get the client instance
+                Pipeline.Prepend(HttpPipelinePrepend);
+                Pipeline.Append(HttpPipelineAppend);
+
+                if (Credential == null) {
+
+                    if (Port == null){
+                        Port = System.Environment.GetEnvironmentVariable("NutanixPort") ?? "9440";
+                    }
+
+                    if (Protocol == null) {
+                        Protocol = System.Environment.GetEnvironmentVariable("NutanixProtocol") ?? "https";
+                    }
+
+                    if (Server == null) {
+                        Server = System.Environment.GetEnvironmentVariable("NutanixServer") ?? "localhost";
+                    }
+
+                    if (Username == null) {
+                        Username = System.Environment.GetEnvironmentVariable("NutanixUsername") ?? "";
+                    }
+
+                    if (Password == null) {
+                        var psw = System.Environment.GetEnvironmentVariable("NutanixPassword") ?? "";
+                        System.Security.SecureString result = new System.Security.SecureString();
+                        foreach (char c in psw)
+                            result.AppendChar(c);
+
+                        Password = result;
+                    }
+                    //build url
+                    var url = $"{Protocol}://{Server}:{Port}";
+                    Credential = new Nutanix.Powershell.Models.NutanixCredential(url,Username, Password);
+                }
                 await ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletBeforeAPICall); if( ((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                 await this.Client.DeleteSecurityRule(Uuid, onAccepted, onDefault, this, Pipeline, Credential);
                 await ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletAfterAPICall); if( ((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested ) { return; }
