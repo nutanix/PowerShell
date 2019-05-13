@@ -21,13 +21,3 @@ Describe "New-CategoryValue" {
         Remove-CategoryKey -Name $category.Name -SkipSSL
     }
 }
-
-Describe "New-CategoryValue" {
-    It "Creates a new category" {
-        $category = New-CategoryKey -Name cmdletcategory -Description "created with a cmdlet" -SkipSSL
-        $value = New-CategoryValue -Name $category.Name -Value value -SkipSSL
-
-        Remove-CategoryKey -Name $category.Name -SkipSSL
-        Remove-CategoryValue -Name $category.Name -Value $value.Value -SkipSSL
-    }
-}
