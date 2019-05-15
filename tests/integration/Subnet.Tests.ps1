@@ -1,7 +1,7 @@
 # Pull In Mocking Support
-. "$PSScriptRoot/HttpPipelineMocking.ps1"
+. "$PSScriptRoot/../HttpPipelineMocking.ps1"
  Describe  "New-Subnet" {
-     It "Should create a New-Subnet" {
+     It "Should create a New-Subnet expanded" {
 
         $randParams = @{ 'minimum' = '1' ;
                          'maximum' ='500' }

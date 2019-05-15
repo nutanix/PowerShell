@@ -1,5 +1,5 @@
 # Pull In Mocking Support
-. "$PSScriptRoot/HttpPipelineMocking.ps1"
+. "$PSScriptRoot/../HttpPipelineMocking.ps1"
  Describe "New-Image" {
      It "Should create a New-Image" {
         $imageUrl = "http://archive.ubuntu.com/ubuntu/dists/bionic/main/installer-amd64/current/images/netboot/mini.iso"
