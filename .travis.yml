@@ -27,7 +27,6 @@ matrix:
     - os: osx
       osx_image: xcode9.4
       before_install:
-        #- brew tap caskroom/cask
         - brew cask install powershell
       fast_finish: true
 
@@ -42,6 +41,9 @@ env:
     - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 
 before_script:
+  - env
+  - pwsh -c "env"
+  - pwsh -f "${env:TRAVIS_BUILD_DIR}/build-module.ps1"
   - pwsh -f "${env:TRAVIS_BUILD_DIR}/build-module.ps1"
 
 
