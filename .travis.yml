@@ -41,7 +41,7 @@ env:
     - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 
 install:
-  - pwsh -c "Install-Module -Name Pester -Force -Confirm -AcceptLicense"
+  - pwsh -c "Install-Module -Name Pester -Force"
 
 before_script:
   - env
