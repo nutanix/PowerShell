@@ -44,9 +44,8 @@ install:
   - pwsh -c "Install-Module -Name Pester -Force"
 
 before_script:
-  - env
-  - pwsh -c "env"
   - pwsh -f "${TRAVIS_BUILD_DIR}/build-module.ps1"
+  - pwsh -c "Import-Module -Name .\${TRAVIS_BUILD_DIR}\Nutanix.psd1"
 
 
 script: 
