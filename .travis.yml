@@ -41,12 +41,11 @@ env:
     - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 
 install:
-  - pwsh -c "Install-Module -Name Pester"
+  - pwsh -c "Install-Module -Name Pester -Force -Confirm -AcceptLicense"
 
 before_script:
   - env
   - pwsh -c "env"
-  - pwsh -f "${TRAVIS_BUILD_DIR}/build-module.ps1"
   - pwsh -f "${TRAVIS_BUILD_DIR}/build-module.ps1"
 
 
