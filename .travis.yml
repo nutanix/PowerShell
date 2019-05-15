@@ -8,7 +8,9 @@ git:
 
 dotnet: 2.1.502
 
-script: dotnet build
+script: 
+  - dotnet build
+  - pwsh -c "Invoke-Pester -Script @{ Path = './tests/*.Tests.ps1' }"  
 
 matrix:
   fast_finish: true
