@@ -2,32 +2,45 @@
 
 Describe "New-CategoryKey" {
     It "Creates a new category" {
-        $cmdletcategory = -join ((48..57) + (97..122) | Get-Random -Count 16 | % {[char]$_})
+        $cmdletcategory = -join ((48..57) + (97..122) `
+            | Get-Random -Count 16 `
+            | % {[char]$_})
 
-        $category = New-CategoryKey -Name $cmdletcategory -Description "created via cmdlet" -SkipSSL
+        $category = New-CategoryKey `
+            -Name $cmdletcategory `
+            -Description "created via cmdlet" `
+            -SkipSSL
 
-        Remove-CategoryKey -Name $category.Name -SkipSSL
+        Remove-CategoryKey `
+            -Name $category.Name `
+            -SkipSSL
+
     }
 }
 
 Describe "New-CategoryValue" {
     It "Creates a new category" {
-        $cmdletcategory = -join ((48..57) + (97..122) | Get-Random -Count 16 | % {[char]$_})
+        $cmdletcategory = -join ((48..57) + (97..122) `
+            | Get-Random -Count 16 `
+            | % {[char]$_})
 
-        $category = New-CategoryKey -Name $cmdletcategory -Description "created with a cmdlet" -SkipSSL
-        $value = New-CategoryValue -Name $category.Name -Value value -SkipSSL
+        $category = New-CategoryKey `
+            -Name $cmdletcategory `
+            -Description "created with a cmdlet" `
+            -SkipSSL
 
-        Remove-CategoryValue -Name $category.Name -Value $value.Value -SkipSSL
-        Remove-CategoryKey -Name $category.Name -SkipSSL
-    }
-}
+        $value = New-CategoryValue `
+            -Name $category.Name `
+            -Value value `
+            -SkipSSL
 
-Describe "New-CategoryValue" {
-    It "Creates a new category" {
-        $category = New-CategoryKey -Name cmdletcategory -Description "created with a cmdlet" -SkipSSL
-        $value = New-CategoryValue -Name $category.Name -Value value -SkipSSL
+        Remove-CategoryValue `
+            -Name $category.Name `
+            -Value $value.Value `
+            -SkipSSL
 
-        Remove-CategoryKey -Name $category.Name -SkipSSL
-        Remove-CategoryValue -Name $category.Name -Value $value.Value -SkipSSL
+        Remove-CategoryKey `
+            -Name $category.Name `
+            -SkipSSL
     }
 }

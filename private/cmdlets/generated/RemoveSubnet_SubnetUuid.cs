@@ -213,7 +213,15 @@ namespace Nutanix.Powershell.Cmdlets
             using( NoSynchronizationContext )
             {
                 await ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletGetPipeline); if( ((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested ) { return; }
-                   if (Credential == null) {
+                if (this.SkipSSL.ToBool()) {
+                    Pipeline = Nutanix.Powershell.Module.Instance.CreatePipelineWithProxy(this.MyInvocation.BoundParameters);
+                } else {
+                    Pipeline = Nutanix.Powershell.Module.Instance.CreatePipeline(this.MyInvocation.BoundParameters);
+                }
+                Pipeline.Prepend(HttpPipelinePrepend);
+                Pipeline.Append(HttpPipelineAppend);
+
+                if (Credential == null) {
 
                     if (Port == null){
                         Port = System.Environment.GetEnvironmentVariable("NutanixPort") ?? "9440";

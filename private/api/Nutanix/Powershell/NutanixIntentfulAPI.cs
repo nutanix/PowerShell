@@ -2796,7 +2796,7 @@ namespace Nutanix.Powershell
             {
                 // construct URL
                 var _url = new System.Uri((
-                        credential.Uri.ToString()
+                        $"{credential.Uri.ToString()}/api/nutanix/v3//subnets/"
                         + System.Uri.EscapeDataString(uuid)
                         + ""
                         ).TrimEnd('?','&'));
@@ -2833,10 +2833,11 @@ namespace Nutanix.Powershell
             {
                 // construct URL
                 var _url = new System.Uri((
-                        credential.Uri.ToString()
+                        $"{credential.Uri.ToString()}/api/nutanix/v3//subnets/"
                         + System.Uri.EscapeDataString(uuid)
                         + ""
                         ).TrimEnd('?','&'));
+                
 
                 await eventListener.Signal(Microsoft.Rest.ClientRuntime.Events.URLCreated, _url); if( eventListener.Token.IsCancellationRequested ) { return; }
 
@@ -3008,7 +3009,7 @@ namespace Nutanix.Powershell
             {
                 // construct URL
                 var _url = new System.Uri((
-                        credential.Uri.ToString()
+                        $"{credential.Uri.ToString()}/api/nutanix/v3//subnets/"
                         + System.Uri.EscapeDataString(uuid)
                         + ""
                         ).TrimEnd('?','&'));
