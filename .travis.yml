@@ -1,7 +1,7 @@
 ---
 language: csharp
-solution: PowerShell.sln
-mono: none
+#solution: PowerShell.sln
+#mono: none
 
 git:
   depth: 1
@@ -17,16 +17,17 @@ matrix:
     - os: linux
       dist: trusty
       sudo: required
-      apt:
-        sources:
-          - sourceline: "deb [arch=amd64] https://packages.microsoft.com/ubuntu/14.04/prod trusty main"
-            key_url: "https://packages.microsoft.com/keys/microsoft.asc"
-        packages:
-          - powershell
+      addons:
+        apt:
+          sources:
+            - sourceline: "deb [arch=amd64] https://packages.microsoft.com/ubuntu/14.04/prod trusty main"
+              key_url: "https://packages.microsoft.com/keys/microsoft.asc"
+          packages:
+            - powershell
     - os: osx
       osx_image: xcode9.4
       before_install:
-        - brew tap caskroom/cask
+        #- brew tap caskroom/cask
         - brew cask install powershell
       fast_finish: true
 
