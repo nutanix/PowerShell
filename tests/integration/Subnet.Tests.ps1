@@ -1,7 +1,38 @@
 # Pull In Mocking Support
-. "$PSScriptRoot/HttpPipelineMocking.ps1"
+. "$PSScriptRoot/../HttpPipelineMocking.ps1"
  Describe  "New-Subnet" {
-     It "Should create a New-Subnet" {
+     It "Should create a New-Subnet all-attr" {
+
+      #  $randParams = @{ 'minimum' = '1' ;
+      #                   'maximum' ='500' }
+
+      #  $vlanID = Get-Random @randparams
+
+      #  $subnet = New-Subnet `
+      #      -BootFileName bootifile `
+      #      -DomainName nutanix `
+      #      -TftpServerName 10.250.140.200 `
+      #      -DomainNameServerList "8.8.8.8", "4.2.2.2" `
+      #      -DomainSearchList "terraform.nutanix.com", "terraform.unit.test.com" `
+      #      -DefaultGatewayIp 10.250.141.1 `
+      #      -PoolList "10.250.141.110 10.250.141.250" `
+      #      -Ip 10.250.141.254 `
+      #      -PrefixLength 24 `
+      #      -SubnetIp 10.250.141.0 `
+      #      -VlanId 324 `
+      #      -SubnetType Vlan `
+      #      -Name CmdletGen `
+      #      -Description "Generated via cmdlet" `
+      #      -ClusterReferenceUuid $env:ClusterID 
+
+      #  Get-Subnet `
+      #      -Uuid $subnet.Metadata.Uuid `
+      #      -SkipSSL
+      #  Remove-Subnet `
+      #      -Uuid $subnet.Metadata.Uuid `
+      #      -SkipSSL
+     }
+     It "Should create a New-Subnet expanded" {
 
         $randParams = @{ 'minimum' = '1' ;
                          'maximum' ='500' }

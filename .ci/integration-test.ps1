@@ -4,7 +4,8 @@ param(
     [String]$user,
     [String]$port=9440,
     [String]$server,
-    [String]$protocol="https"
+    [String]$protocol="https",
+    [String]$clusterID
 )
 
 Import-Module -Name .\Nutanix.psd1
@@ -20,4 +21,7 @@ $credentials = New-NutanixCredential `
 Set-NutanixCredential -Credential $credentials
 $env:ClusterID = $clusterID 
 
-Invoke-Pester -Script @{ Path = './tests/*.Tests.ps1'} 
+Invoke-Pester -Script @{ Path = './tests/integration/*.Tests.ps1'} 
+#Invoke-Pester -Script @{ Path = './tests/integration/VM.Tests.ps1'} 
+#Invoke-Pester -Script @{ Path = './tests/integration/Subnet.Tests.ps1'} 
+#Invoke-Pester -Script @{ Path = './tests/integration/Images.Tests.ps1'} 

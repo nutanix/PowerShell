@@ -46,10 +46,9 @@ install:
 before_script:
   - pwsh -f "${TRAVIS_BUILD_DIR}/build-module.ps1"
 
-
 script: 
-  - pwsh -Command "${TRAVIS_BUILD_DIR}\\.ci\\test.ps1" -Passwd "${passwd}" -User "${user}" -Server "${server}" -ClusterID "${clusterID}" 
-
+  - pwsh -Command "${TRAVIS_BUILD_DIR}\\.ci\\test.ps1" -Passwd "${passwd}" -User "${user}" -Server "${server}" 
+  - pwsh -Command "${TRAVIS_BUILD_DIR}\\.ci\\integration-test.ps1" -Passwd "${passwd}" -User "${user}" -Server "${server}" -ClusterID "${clusterID}" 
 
 cache:
   timeout: 360
