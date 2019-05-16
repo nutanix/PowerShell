@@ -41,15 +41,14 @@ env:
     - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 
 install:
-  - pwsh -c "Install-Module -Name Pester -Force"
+  - pwsh -f "${TRAVIS_BUILD_DIR}/.ci/install-dependencies.ps1"
 
 before_script:
   - pwsh -f "${TRAVIS_BUILD_DIR}/build-module.ps1"
-  - pwsh -c "Import-Module -Name .\\${TRAVIS_BUILD_DIR}\\Nutanix.psd1"
 
 
 script: 
-  - pwsh -c "Invoke-Pester -Script @{ Path = './tests/*.Tests.ps1' }"  
+  - pwsh -Command "${TRAVIS_BUILD_DIR}\\.ci\\test.ps1" -Passwd "${passwd}" -User "${user}" -Server "${server}" -ClusterID "${clusterID}" 
 
 
 cache:
