@@ -1,4 +1,4 @@
-. "$PSScriptRoot/HttpPipelineMocking.ps1"
+. "$PSScriptRoot/../HttpPipelineMocking.ps1"
 
 Describe 'New-Vm expanded' {
     It "Should create a new vm" {

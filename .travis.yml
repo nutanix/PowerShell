@@ -1,14 +1,10 @@
 ---
 language: csharp
-solution: PowerShell.sln
-mono: none
 
 git:
   depth: 1
 
 dotnet: 2.1.502
-
-script: dotnet build
 
 matrix:
   fast_finish: true
@@ -19,8 +15,18 @@ matrix:
     - os: linux
       dist: trusty
       sudo: required
+      addons:
+        apt:
+          sources:
+            - sourceline: "deb [arch=amd64] https://packages.microsoft.com/ubuntu/14.04/prod trusty main"
+              key_url: "https://packages.microsoft.com/keys/microsoft.asc"
+          packages:
+            - powershell
     - os: osx
       osx_image: xcode9.4
+      before_install:
+        - brew cask install powershell
+      fast_finish: true
 
 # travis-ci will quit using the cache if an enviroment variable changes.
 # CACHE_VERSION is not used for anything other than invalidating the cache.
@@ -31,6 +37,16 @@ env:
     - CACHE_VERSION=netcoreapp.2.1-sdk.2.1.502
     - POWERSHELL_TELEMETRY_OPTOUT=1
     - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
+
+install:
+  - pwsh -f "${TRAVIS_BUILD_DIR}/.ci/install-dependencies.ps1"
+
+before_script:
+  - pwsh -f "${TRAVIS_BUILD_DIR}/build-module.ps1"
+
+script: 
+  - pwsh -Command "${TRAVIS_BUILD_DIR}\\.ci\\test.ps1" -Passwd "${passwd}" -User "${user}" -Server "${server}" 
+  - pwsh -Command "${TRAVIS_BUILD_DIR}\\.ci\\integration-test.ps1" -Passwd "${passwd}" -User "${user}" -Server "${server}" -ClusterID "${clusterID}" 
 
 cache:
   timeout: 360
