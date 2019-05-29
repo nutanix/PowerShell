@@ -26,6 +26,7 @@ matrix:
       osx_image: xcode9.4
       before_install:
         - brew cask install powershell
+        - brew install hub 
       fast_finish: true
 
 # travis-ci will quit using the cache if an enviroment variable changes.
@@ -49,8 +50,9 @@ script:
   - pwsh -Command "${TRAVIS_BUILD_DIR}\\.ci\\integration-test.ps1" -Passwd "${passwd}" -User "${user}" -Server "${server}" -ClusterID "${clusterID}" 
 
 after_success:
-  - test $TRAVIS_BRANCH == "build" 
-  - pwsh -Command "${TRAVIS_BUILD_DIR}\\.ci\\upload-package.ps1" -apiKey "${galleryKey}"
+  - test $TRAVIS_BRANCH == "master" 
+  - test $TRAVIS_OS_NAME == "osx"
+  - pwsh -Command "${TRAVIS_BUILD_DIR}\\.ci\\upload-package.ps1" -ApiKey "${galleryKey}"
 
 cache:
   timeout: 360
