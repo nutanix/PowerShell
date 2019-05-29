@@ -49,7 +49,7 @@ script:
   - pwsh -Command "${TRAVIS_BUILD_DIR}\\.ci\\integration-test.ps1" -Passwd "${passwd}" -User "${user}" -Server "${server}" -ClusterID "${clusterID}" 
 
 after_success:
-  - test $TRAVIS_BRANCH == "build" 
+  - test $TRAVIS_BRANCH == "master" 
   - pwsh -Command "${TRAVIS_BUILD_DIR}\\.ci\\upload-package.ps1" -apiKey "${galleryKey}"
 
 cache:
