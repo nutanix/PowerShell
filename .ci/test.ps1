@@ -18,6 +18,5 @@ $credentials = New-NutanixCredential `
     -protocol $protocol 
 
 Set-NutanixCredential -Credential $credentials
-$env:ClusterID = $clusterID 
 
-Invoke-Pester -Script @{ Path = './tests/*.Tests.ps1'} 
+Invoke-Pester -Path ".\tests\*.Tests.ps1" -CodeCoverage ".\exported\*Credential*.ps1" 
