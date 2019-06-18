@@ -1,29 +1,5 @@
 #!/usr/bin/pwsh
-param(
-    [String]$apiKey
-)
-
 Import-Module BuildHelpers
-
-#Retrive latest Tag
-
-Install-Module -Name Nutanix -Force
-Import-Module Nutanix
-Get-Module -Name Nutanix
-$module = Get-Module -Name Nutanix
-$latestVersion = $module.Version.ToString()
-
-Remove-Module Nutanix 
-
-#$latestTag=git describe --abbrev=0 --tags
-#if( $latestTag -eq "" ) {
-#    $latestTag = "v1.0.0"
-#}
-
-#$latestVersion=$latestTag.Substring(1)
-
-
-Update-Metadata -PropertyName ModuleVersion -Value $latestVersion -Path ./Nutanix.psd1 
 
 # Automatic Semantic version by Kevin Marquette: 
 # https://powershellexplained.com/2017-10-14-Powershell-module-semantic-version/
@@ -60,20 +36,8 @@ $oldFingerprint | Where {$_ -notin $fingerprint } |
 
 Set-Content -Path .\fingerprint -Value $fingerprint
 
-# Add new git tag
-
 Step-ModuleVersion -By $bumpVersionType
 $newVersion=Get-Metadata -PropertyName ModuleVersion -Path ./Nutanix.psd1
+
 Write-Output $newVersion
 Write-Output $bumpVersionType
-
-git config --local user.email "travis@travis-ci.org"
-git config --local user.name "Travis CI"
-
-git tag "v$newVersion" 
-
-Import-Module ".\$ModuleName.psd1"
-
-Get-Module Nutanix
-
-Publish-Module -Name .\Nutanix.psd1 -NuGetApiKey $apiKey
