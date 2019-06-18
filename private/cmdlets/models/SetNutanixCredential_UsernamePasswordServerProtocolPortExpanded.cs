@@ -84,8 +84,12 @@ namespace Nutanix.Powershell.ModelCmdlets
                 return _password;
             }
         }
-
         
+        private bool _skip_ssl;
+        /// <summary>HELP MESSAGE MISSING</summary>
+        [System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "Skip the ssl validation")]
+        public System.Management.Automation.SwitchParameter SkipSSL { get; set; }
+
         /// <summary>Performs execution of the command.</summary>
 
         protected override void ProcessRecord()
@@ -96,6 +100,12 @@ namespace Nutanix.Powershell.ModelCmdlets
             System.Environment.SetEnvironmentVariable("NutanixProtocol", Protocol);
             System.Environment.SetEnvironmentVariable("NutanixUsername", Username);
             System.Environment.SetEnvironmentVariable("NutanixPassword", Password);
+            if (SkipSSL.ToBool()){
+                System.Environment.SetEnvironmentVariable("NutanixSkipSSL", "true");
+            }
+            else {
+                System.Environment.SetEnvironmentVariable("NutanixSkipSSL", "");
+            }
         }
     }
 }
