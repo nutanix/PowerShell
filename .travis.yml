@@ -51,9 +51,9 @@ script:
 
 deploy:
   provider: script
-  script: pwsh -Command "${TRAVIS_BUILD_DIR}\\.ci\\upload-package.ps1" -ApiKey "${galleryKey}"
+  script: pwsh -Command "${TRAVIS_BUILD_DIR}\\.ci\\publish-package.ps1" -ApiKey "${galleryKey}"
   on:
-    branch: master
+    tags: true 
   
 
 cache:
