@@ -75,3 +75,6 @@ NutanixPowershell.psd1
 
 # exported module cause it is making noise 
 exported/
+
+#Nutanix nuget Package
+Nutanix/
