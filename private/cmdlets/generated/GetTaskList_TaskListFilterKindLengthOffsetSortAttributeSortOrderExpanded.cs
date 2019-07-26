@@ -1,5 +1,6 @@
 namespace Nutanix.Powershell.Cmdlets
 {
+    using System.Management.Automation;
     using static Microsoft.Rest.ClientRuntime.Extensions;
     /// <summary>Implement a variant of the cmdlet Get-TaskList.</summary>
     [System.Management.Automation.Cmdlet(System.Management.Automation.VerbsCommon.Get, @"TaskList_TaskListFilterKindLengthOffsetSortAttributeSortOrderExpanded", SupportsShouldProcess = true)]
@@ -44,13 +45,9 @@ namespace Nutanix.Powershell.Cmdlets
         [System.Management.Automation.Parameter(Mandatory = false, DontShow= true, HelpMessage = "SendAsync Pipeline Steps to be prepended to the front of the pipeline")]
         [System.Management.Automation.ValidateNotNull]
         public Microsoft.Rest.ClientRuntime.SendAsyncStep[] HttpPipelinePrepend {get;set;}
-        /// <summary>The Username for authentication</summary>
-        [System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "The Username for authentication")]
-        public string Username { get; set; }
-
-        /// <summary>The Password for authentication</summary>
-        [System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "The Password for authentication")]
-        public System.Security.SecureString Password { get; set; }
+        /// <summary>Use credentials for login</summary>
+        [System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "PSCredential for authentication")]
+        public PSCredential PSCredential { get; set; }
 
         [System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "Skip the ssl validation")]
         public System.Management.Automation.SwitchParameter SkipSSL { get; set; }
@@ -303,23 +300,10 @@ namespace Nutanix.Powershell.Cmdlets
                         Server = System.Environment.GetEnvironmentVariable("NutanixServer") ?? "localhost";
                     }
 
-                    if (Username == null)
-                    {
-                        Username = System.Environment.GetEnvironmentVariable("NutanixUsername") ?? "";
-                    }
-
-                    if (Password == null)
-                    {
-                        var psw = System.Environment.GetEnvironmentVariable("NutanixPassword") ?? "";
-                        System.Security.SecureString result = new System.Security.SecureString();
-                        foreach (char c in psw)
-                            result.AppendChar(c);
-
-                        Password = result;
-                    }
+                   
                     //build url
                     var url = $"{Protocol}://{Server}:{Port}";
-                    Credential = new Nutanix.Powershell.Models.NutanixCredential(url, Username, Password);
+                    Credential = new Nutanix.Powershell.Models.NutanixCredential(url, PSCredential);
                 }
                 await ((Microsoft.Rest.ClientRuntime.IEventListener)this).Signal(Microsoft.Rest.ClientRuntime.Events.CmdletBeforeAPICall); if( ((Microsoft.Rest.ClientRuntime.IEventListener)this).Token.IsCancellationRequested ) { return; }
                 await this.Client.GetTaskList(GetEntitiesRequestBody, onOK, onDefault, this, Pipeline, Credential);

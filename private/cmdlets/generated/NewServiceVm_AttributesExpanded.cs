@@ -1,5 +1,6 @@
 namespace Nutanix.Powershell.Cmdlets
 {
+    using System.Management.Automation;
     using static Microsoft.Rest.ClientRuntime.Extensions;
     /// <summary>Implement a variant of the cmdlet New-ServiceVm.</summary>
     [System.Management.Automation.Cmdlet(System.Management.Automation.VerbsCommon.New, @"Vm_AttributesExpanded", SupportsShouldProcess = true)]
@@ -210,13 +211,9 @@ namespace Nutanix.Powershell.Cmdlets
         [System.Management.Automation.Parameter(Mandatory = false, DontShow= true, HelpMessage = "Use the default credentials for the proxy")]
         public System.Management.Automation.SwitchParameter ProxyUseDefaultCredentials {get;set;}
         /// <summary>An intentful representation of a vm spec</summary>
-        /// <summary>The Username for authentication</summary>
-        [System.Management.Automation.Parameter(Mandatory = false, DontShow= true, HelpMessage = "The Username for authentication")]
-        public string Username {get; set;}
-
-        /// <summary>The Password for authentication</summary>
-        [System.Management.Automation.Parameter(Mandatory = false, DontShow= true, HelpMessage = "The Password for authentication")]
-        public System.Security.SecureString Password {get; set;}
+        /// <summary>Use credentials for login</summary>
+        [System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "PSCredential for authentication")]
+        public PSCredential PSCredential { get; set; }
 
         [System.Management.Automation.Parameter(Mandatory = false, DontShow= true, HelpMessage = "Skip the ssl validation")]
         public System.Management.Automation.SwitchParameter SkipSSL {get; set;}
@@ -404,21 +401,10 @@ namespace Nutanix.Powershell.Cmdlets
                         Server = System.Environment.GetEnvironmentVariable("NutanixServer") ?? "localhost";
                     }
 
-                    if (Username == null) {
-                        Username = System.Environment.GetEnvironmentVariable("NutanixUsername") ?? "";
-                    }
-
-                    if (Password == null) {
-                        var psw = System.Environment.GetEnvironmentVariable("NutanixPassword") ?? "";
-                        System.Security.SecureString result = new System.Security.SecureString();
-                        foreach (char c in psw)
-                            result.AppendChar(c);
-
-                        Password = result;
-                    }
+              
                     //build url
                     var url = $"{Protocol}://{Server}:{Port}";
-                    Credential = new Nutanix.Powershell.Models.NutanixCredential(url,Username, Password);
+                    Credential = new Nutanix.Powershell.Models.NutanixCredential(url, PSCredential);
                 }
 
                 Body.Metadata = new Nutanix.Powershell.Models.VmMetadata();

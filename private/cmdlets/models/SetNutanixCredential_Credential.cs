@@ -1,18 +1,21 @@
+using System;
+using System.Management.Automation;
+using System.Runtime.InteropServices;
+
 namespace Nutanix.Powershell.ModelCmdlets
 {
-    using static Microsoft.Rest.ClientRuntime.Extensions;
     /// <summary>
     /// Cmdlet to create an in-memory instance of the <see cref="NutanixCredential" /> object.
     /// </summary>
-    [System.Management.Automation.Cmdlet(System.Management.Automation.VerbsCommon.Set, @"NutanixCredential_Credential")]
-    [System.Management.Automation.OutputType(typeof(Nutanix.Powershell.Models.NutanixCredential))]
-    public class SetNutanixCredential_Credential : System.Management.Automation.PSCmdlet
+    [Cmdlet(VerbsCommon.Set, @"NutanixCredential_Credential")]
+    [OutputType(typeof(Nutanix.Powershell.Models.NutanixCredential))]
+    public class SetNutanixCredential_Credential : PSCmdlet
     {
         /// <summary>Backing field for <see cref="NutanixCredential" /></summary>
         private Nutanix.Powershell.Models.NutanixCredential _credential = new Nutanix.Powershell.Models.NutanixCredential();
 
         /// <summary>HELP MESSAGE MISSING</summary>
-        [System.Management.Automation.Parameter(Mandatory = true, HelpMessage = "HELP MESSAGE MISSING")]
+        [Parameter(Mandatory = true, HelpMessage = "HELP MESSAGE MISSING")]
         public Nutanix.Powershell.Models.NutanixCredential Credential
         {
             set
@@ -23,8 +26,8 @@ namespace Nutanix.Powershell.ModelCmdlets
 
         private bool _skip_ssl;
         /// <summary>HELP MESSAGE MISSING</summary>
-        [System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "Skip the ssl validation")]
-        public System.Management.Automation.SwitchParameter SkipSSL { get; set; }
+        [Parameter(Mandatory = false, DontShow = true, HelpMessage = "Skip the ssl validation")]
+        public SwitchParameter SkipSSL { get; set; }
         
         /// <summary>Performs execution of the command.</summary>
 
@@ -37,32 +40,32 @@ namespace Nutanix.Powershell.ModelCmdlets
             }
 
             if (_credential.Password != null) {
-                
-                System.IntPtr intPtr = System.IntPtr.Zero; 
+
+                IntPtr intPtr = IntPtr.Zero;
                 string result;
                 try
                 {
-                    intPtr = System.Runtime.InteropServices.Marshal.SecureStringToBSTR( _credential.Password);
-                    result = System.Runtime.InteropServices.Marshal.PtrToStringBSTR(intPtr);
+                    intPtr = Marshal.SecureStringToBSTR( _credential.Password);
+                    result = Marshal.PtrToStringBSTR(intPtr);
                  }
                 finally
                 {       
-                    if (intPtr != System.IntPtr.Zero)
+                    if (intPtr != IntPtr.Zero)
                     {
-                        System.Runtime.InteropServices.Marshal.ZeroFreeBSTR(intPtr);
+                        Marshal.ZeroFreeBSTR(intPtr);
                     }   
-                }  
-                System.Environment.SetEnvironmentVariable("NutanixPassword", result);
+                }
+                Environment.SetEnvironmentVariable("NutanixPassword", result);
             }
 
-            System.Environment.SetEnvironmentVariable("NutanixPort", _credential.Port.ToString());
-            System.Environment.SetEnvironmentVariable("NutanixServer", _credential.Server);
-            System.Environment.SetEnvironmentVariable("NutanixProtocol", _credential.Protocol);
+            Environment.SetEnvironmentVariable("NutanixPort", _credential.Port.ToString());
+            Environment.SetEnvironmentVariable("NutanixServer", _credential.Server);
+            Environment.SetEnvironmentVariable("NutanixProtocol", _credential.Protocol);
             if (SkipSSL.ToBool()){
-                System.Environment.SetEnvironmentVariable("NutanixSkipSSL", "true");
+                Environment.SetEnvironmentVariable("NutanixSkipSSL", "true");
             }
             else {
-                System.Environment.SetEnvironmentVariable("NutanixSkipSSL", "");
+                Environment.SetEnvironmentVariable("NutanixSkipSSL", "");
             }
             // WriteObject(_credential);
         }

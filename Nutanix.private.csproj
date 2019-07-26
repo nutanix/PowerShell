@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <LangVersion>7.1</LangVersion>
+    <LangVersion>7.2</LangVersion>
     <OutputType>Library</OutputType>
      <TargetFramework>netcoreapp2.1</TargetFramework>
     <nowarn>1998</nowarn> <!-- some methods are marked async that don't have an await in them.-->
