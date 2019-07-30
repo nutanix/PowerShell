@@ -1,6 +1,7 @@
 
 namespace Nutanix.Powershell.ModelCmdlets
 {
+    using System.Management.Automation;
     using static Microsoft.Rest.ClientRuntime.Extensions;
     /// <summary>
     /// Cmdlet to create an in-memory instance of the <see cref="Disk" /> object.
@@ -55,36 +56,52 @@ namespace Nutanix.Powershell.ModelCmdlets
             }
         }
 
-        private string _username;
-        /// <summary>HELP MESSAGE MISSING</summary>
-        [System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "HELP MESSAGE MISSING")]
-        public string Username
-        {
-            set
-            {
-               _username = value;
-            }
-            get
-            {
-                return _username;
-            }
-        } 
+        //private string _username;
+        ///// <summary>HELP MESSAGE MISSING</summary>
+        //[System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "HELP MESSAGE MISSING")]
+        //public string Username
+        //{
+        //    set
+        //    {
+        //       _username = value;
+        //    }
+        //    get
+        //    {
+        //        return _username;
+        //    }
+        //} 
 
-        private string _password;
+        //private string _password;
+        ///// <summary>HELP MESSAGE MISSING</summary>
+        //[System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "HELP MESSAGE MISSING")]
+        //public string Password
+        //{
+        //    set
+        //    {
+        //        _password = value;
+        //    }
+        //    get
+        //    {
+        //        return _password;
+        //    }
+        //}
+
+        private PSCredential _PSCredential;
         /// <summary>HELP MESSAGE MISSING</summary>
         [System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "HELP MESSAGE MISSING")]
-        public string Password
+        public PSCredential PSCredential
         {
             set
             {
-                _password = value;
+                _PSCredential = value;
             }
             get
             {
-                return _password;
+                return _PSCredential;
             }
         }
-        
+
+
         private bool _skip_ssl;
         /// <summary>HELP MESSAGE MISSING</summary>
         [System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "Skip the ssl validation")]
@@ -98,8 +115,8 @@ namespace Nutanix.Powershell.ModelCmdlets
             System.Environment.SetEnvironmentVariable("NutanixPort", Port);
             System.Environment.SetEnvironmentVariable("NutanixServer", Server);
             System.Environment.SetEnvironmentVariable("NutanixProtocol", Protocol);
-            System.Environment.SetEnvironmentVariable("NutanixUsername", Username);
-            System.Environment.SetEnvironmentVariable("NutanixPassword", Password);
+            //System.Environment.SetEnvironmentVariable("NutanixUsername", Username);
+            //System.Environment.SetEnvironmentVariable("NutanixPassword", Password);
             if (SkipSSL.ToBool()){
                 System.Environment.SetEnvironmentVariable("NutanixSkipSSL", "true");
             }
