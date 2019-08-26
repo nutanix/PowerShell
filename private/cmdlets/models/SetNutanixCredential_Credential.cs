@@ -30,30 +30,48 @@ namespace Nutanix.Powershell.ModelCmdlets
 
         protected override void ProcessRecord()
         {
-            
 
-            if (_credential.Username != null) {
-                System.Environment.SetEnvironmentVariable("NutanixUsername", _credential.Username);
-            }
-
-            if (_credential.Password != null) {
-                
-                System.IntPtr intPtr = System.IntPtr.Zero; 
+            if (_credential.PSCredential != null)
+            {
+                System.Environment.SetEnvironmentVariable("NutanixUsername", _credential.PSCredential.UserName);
+                System.IntPtr intPtr = System.IntPtr.Zero;
                 string result;
                 try
                 {
-                    intPtr = System.Runtime.InteropServices.Marshal.SecureStringToBSTR( _credential.Password);
+                    intPtr = System.Runtime.InteropServices.Marshal.SecureStringToBSTR(_credential.PSCredential.Password);
                     result = System.Runtime.InteropServices.Marshal.PtrToStringBSTR(intPtr);
-                 }
+                }
                 finally
-                {       
+                {
                     if (intPtr != System.IntPtr.Zero)
                     {
                         System.Runtime.InteropServices.Marshal.ZeroFreeBSTR(intPtr);
-                    }   
-                }  
+                    }
+                }
                 System.Environment.SetEnvironmentVariable("NutanixPassword", result);
             }
+            //if (_credential.Username != null) {
+            //    System.Environment.SetEnvironmentVariable("NutanixUsername", _credential.Username);
+            //}
+
+            //if (_credential.Password != null) {
+                
+            //    System.IntPtr intPtr = System.IntPtr.Zero; 
+            //    string result;
+            //    try
+            //    {
+            //        intPtr = System.Runtime.InteropServices.Marshal.SecureStringToBSTR( _credential.Password);
+            //        result = System.Runtime.InteropServices.Marshal.PtrToStringBSTR(intPtr);
+            //     }
+            //    finally
+            //    {       
+            //        if (intPtr != System.IntPtr.Zero)
+            //        {
+            //            System.Runtime.InteropServices.Marshal.ZeroFreeBSTR(intPtr);
+            //        }   
+            //    }  
+            //    System.Environment.SetEnvironmentVariable("NutanixPassword", result);
+            //}
 
             System.Environment.SetEnvironmentVariable("NutanixPort", _credential.Port.ToString());
             System.Environment.SetEnvironmentVariable("NutanixServer", _credential.Server);

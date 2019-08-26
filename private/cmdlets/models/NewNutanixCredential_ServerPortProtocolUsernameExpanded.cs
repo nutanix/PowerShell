@@ -1,5 +1,6 @@
 namespace Nutanix.Powershell.ModelCmdlets
 {
+    using System.Management.Automation;
     using static Microsoft.Rest.ClientRuntime.Extensions;
     /// <summary>
     /// Cmdlet to create an in-memory instance of the <see cref="Disk" /> object.
@@ -41,31 +42,44 @@ namespace Nutanix.Powershell.ModelCmdlets
             }
         }
 
+        ///// <summary>HELP MESSAGE MISSING</summary>
+        //[System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "HELP MESSAGE MISSING")]
+        //public string Username
+        //{
+        //    set
+        //    {
+        //        _credential.Username = value;
+        //    }
+        //} 
+        ///// <summary>HELP MESSAGE MISSING</summary>
+        //[System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "HELP MESSAGE MISSING")]
+        //public string Password
+        //{
+        //    set
+        //    {
+        //        System.Security.SecureString result = new System.Security.SecureString();
+        //        if (value.Length > 0 ) {
+        //            foreach (char c in value)
+        //                    result.AppendChar(c);
+        //            }  
+        //            _credential.Password = result;
+        //    }
+        //}
+
         /// <summary>HELP MESSAGE MISSING</summary>
         [System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "HELP MESSAGE MISSING")]
-        public string Username
+        public PSCredential PSCredential
+
         {
             set
             {
-                _credential.Username = value;
-            }
-        } 
-        /// <summary>HELP MESSAGE MISSING</summary>
-        [System.Management.Automation.Parameter(Mandatory = false, HelpMessage = "HELP MESSAGE MISSING")]
-        public string Password
-        {
-            set
-            {
-                System.Security.SecureString result = new System.Security.SecureString();
-                if (value.Length > 0 ) {
-                    foreach (char c in value)
-                            result.AppendChar(c);
-                    }  
-                    _credential.Password = result;
+                _credential.PSCredential = value;
+                _credential.Username = value.UserName;
+                _credential.Password = value.Password;
             }
         }
 
-        
+
         /// <summary>Performs execution of the command.</summary>
 
         protected override void ProcessRecord()
