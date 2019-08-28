@@ -252,7 +252,19 @@ namespace Nutanix.Powershell.Cmdlets
                     {
                         Server = System.Environment.GetEnvironmentVariable("NutanixServer") ?? "localhost";
                     }
+                    if (PSCredential == null)
+                    {
+                        System.Security.SecureString s = new System.Security.SecureString();
+                        if (System.Environment.GetEnvironmentVariable("NutanixPassword") != null)
+                        {
 
+                            foreach (char item in System.Environment.GetEnvironmentVariable("NutanixPassword"))
+                            {
+                                s.AppendChar(item);
+                            }
+                        }
+                        PSCredential = new PSCredential(System.Environment.GetEnvironmentVariable("NutanixUsername"), s);
+                    }
 
                     //build url
                     var url = $"{Protocol}://{Server}:{Port}";

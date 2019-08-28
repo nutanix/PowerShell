@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Nutanix.private": {
+      "commandName": "Executable"
+    }
+  }
+}

@@ -1,5 +1,6 @@
 namespace Nutanix.Powershell.Cmdlets
 {
+    using System.Management.Automation;
     using static Microsoft.Rest.ClientRuntime.Extensions;
     /// <summary>Implement a variant of the cmdlet Set-Subnet.</summary>
     [System.Management.Automation.Cmdlet(System.Management.Automation.VerbsCommon.Set, @"Subnet_SubnetUuidApiVersionMetadataSpec", SupportsShouldProcess = true)]
@@ -55,13 +56,8 @@ namespace Nutanix.Powershell.Cmdlets
         /// <summary>Use the default credentials for the proxy</summary>
         [System.Management.Automation.Parameter(Mandatory = false, DontShow= true, HelpMessage = "Use the default credentials for the proxy")]
         public System.Management.Automation.SwitchParameter ProxyUseDefaultCredentials {get;set;}
-          /// <summary>The Username for authentication</summary>
-        [System.Management.Automation.Parameter(Mandatory = false, DontShow= true, HelpMessage = "The Username for authentication")]
-        public string Username {get; set;}
 
-        /// <summary>The Password for authentication</summary>
-        [System.Management.Automation.Parameter(Mandatory = false, DontShow= true, HelpMessage = "The Password as a secure string for authentication")]
-        public System.Security.SecureString Password {get; set;}
+        public PSCredential PSCredential { get; set; }
 
         /// <summary>Skip the ssl validation</summary>
         [System.Management.Automation.Parameter(Mandatory = false, DontShow= true, HelpMessage = "Skip the ssl validation")]
@@ -245,17 +241,18 @@ namespace Nutanix.Powershell.Cmdlets
                         Server = System.Environment.GetEnvironmentVariable("NutanixServer") ?? "localhost";
                     }
 
-                    if (Username == null) {
-                        Username = System.Environment.GetEnvironmentVariable("NutanixUsername") ?? "";
-                    }
+                    if (PSCredential == null)
+                    {
+                        System.Security.SecureString s = new System.Security.SecureString();
+                        if (System.Environment.GetEnvironmentVariable("NutanixPassword") != null)
+                        {
 
-                    if (Password == null) {
-                        var psw = System.Environment.GetEnvironmentVariable("NutanixPassword") ?? "";
-                        System.Security.SecureString result = new System.Security.SecureString();
-                        foreach (char c in psw)
-                            result.AppendChar(c);
-
-                        Password = result;
+                            foreach (char item in System.Environment.GetEnvironmentVariable("NutanixPassword"))
+                            {
+                                s.AppendChar(item);
+                            }
+                        }
+                        PSCredential = new PSCredential(System.Environment.GetEnvironmentVariable("NutanixUsername"), s);
                     }
                 }
                 Pipeline.Prepend(HttpPipelinePrepend);

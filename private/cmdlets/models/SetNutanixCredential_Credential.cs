@@ -1,21 +1,18 @@
-using System;
-using System.Management.Automation;
-using System.Runtime.InteropServices;
-
 namespace Nutanix.Powershell.ModelCmdlets
 {
+    using static Microsoft.Rest.ClientRuntime.Extensions;
     /// <summary>
     /// Cmdlet to create an in-memory instance of the <see cref="NutanixCredential" /> object.
     /// </summary>
-    [Cmdlet(VerbsCommon.Set, @"NutanixCredential_Credential")]
-    [OutputType(typeof(Nutanix.Powershell.Models.NutanixCredential))]
-    public class SetNutanixCredential_Credential : PSCmdlet
+    [System.Management.Automation.Cmdlet(System.Management.Automation.VerbsCommon.Set, @"NutanixCredential_Credential")]
+    [System.Management.Automation.OutputType(typeof(Nutanix.Powershell.Models.NutanixCredential))]
+    public class SetNutanixCredential_Credential : System.Management.Automation.PSCmdlet
     {
         /// <summary>Backing field for <see cref="NutanixCredential" /></summary>
         private Nutanix.Powershell.Models.NutanixCredential _credential = new Nutanix.Powershell.Models.NutanixCredential();
 
         /// <summary>HELP MESSAGE MISSING</summary>
-        [Parameter(Mandatory = true, HelpMessage = "HELP MESSAGE MISSING")]
+        [System.Management.Automation.Parameter(Mandatory = true, HelpMessage = "HELP MESSAGE MISSING")]
         public Nutanix.Powershell.Models.NutanixCredential Credential
         {
             set
@@ -26,46 +23,66 @@ namespace Nutanix.Powershell.ModelCmdlets
 
         private bool _skip_ssl;
         /// <summary>HELP MESSAGE MISSING</summary>
-        [Parameter(Mandatory = false, DontShow = true, HelpMessage = "Skip the ssl validation")]
-        public SwitchParameter SkipSSL { get; set; }
-        
+        [System.Management.Automation.Parameter(Mandatory = false, DontShow = true, HelpMessage = "Skip the ssl validation")]
+        public System.Management.Automation.SwitchParameter SkipSSL { get; set; }
+
         /// <summary>Performs execution of the command.</summary>
 
         protected override void ProcessRecord()
         {
-            
 
-            if (_credential.Username != null) {
-                System.Environment.SetEnvironmentVariable("NutanixUsername", _credential.Username);
-            }
-
-            if (_credential.Password != null) {
-
-                IntPtr intPtr = IntPtr.Zero;
+            if (_credential.PSCredential != null)
+            {
+                System.Environment.SetEnvironmentVariable("NutanixUsername", _credential.PSCredential.UserName);
+                System.IntPtr intPtr = System.IntPtr.Zero;
                 string result;
                 try
                 {
-                    intPtr = Marshal.SecureStringToBSTR( _credential.Password);
-                    result = Marshal.PtrToStringBSTR(intPtr);
-                 }
-                finally
-                {       
-                    if (intPtr != IntPtr.Zero)
-                    {
-                        Marshal.ZeroFreeBSTR(intPtr);
-                    }   
+                    intPtr = System.Runtime.InteropServices.Marshal.SecureStringToBSTR(_credential.PSCredential.Password);
+                    result = System.Runtime.InteropServices.Marshal.PtrToStringBSTR(intPtr);
                 }
-                Environment.SetEnvironmentVariable("NutanixPassword", result);
+                finally
+                {
+                    if (intPtr != System.IntPtr.Zero)
+                    {
+                        System.Runtime.InteropServices.Marshal.ZeroFreeBSTR(intPtr);
+                    }
+                }
+                System.Environment.SetEnvironmentVariable("NutanixPassword", result);
             }
+            //if (_credential.Username != null) {
+            //    System.Environment.SetEnvironmentVariable("NutanixUsername", _credential.Username);
+            //}
 
-            Environment.SetEnvironmentVariable("NutanixPort", _credential.Port.ToString());
-            Environment.SetEnvironmentVariable("NutanixServer", _credential.Server);
-            Environment.SetEnvironmentVariable("NutanixProtocol", _credential.Protocol);
-            if (SkipSSL.ToBool()){
-                Environment.SetEnvironmentVariable("NutanixSkipSSL", "true");
+            //if (_credential.Password != null) {
+
+            //    System.IntPtr intPtr = System.IntPtr.Zero; 
+            //    string result;
+            //    try
+            //    {
+            //        intPtr = System.Runtime.InteropServices.Marshal.SecureStringToBSTR( _credential.Password);
+            //        result = System.Runtime.InteropServices.Marshal.PtrToStringBSTR(intPtr);
+            //     }
+            //    finally
+            //    {       
+            //        if (intPtr != System.IntPtr.Zero)
+            //        {
+            //            System.Runtime.InteropServices.Marshal.ZeroFreeBSTR(intPtr);
+            //        }   
+            //    }  
+            //    System.Environment.SetEnvironmentVariable("NutanixPassword", result);
+            //}
+
+            System.Environment.SetEnvironmentVariable("NutanixPort", _credential.Port.ToString());
+            System.Environment.SetEnvironmentVariable("NutanixServer", _credential.Server);
+            System.Environment.SetEnvironmentVariable("NutanixProtocol", _credential.Protocol);
+            if (SkipSSL.ToBool())
+            {
+                System.Environment.SetEnvironmentVariable("NutanixSkipSSL", "true");
             }
-            else {
-                Environment.SetEnvironmentVariable("NutanixSkipSSL", "");
+            else
+            {
+                System.Environment.SetEnvironmentVariable("NutanixSkipSSL", "");
             }
             // WriteObject(_credential);
         }

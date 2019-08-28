@@ -66,13 +66,13 @@ namespace Nutanix.Powershell.Models
             Password = result;
         }
 
-        public NutanixCredential(string uri, string username, SecureString password)
-        {
-            var _uri = new Uri(uri);
-            Uri = _uri;
-            Password = password;
-            Username = username;
-        }
+        //public NutanixCredential(string uri, string username, SecureString password)
+        //{
+        //    var _uri = new Uri(uri);
+        //    Uri = _uri;
+        //    Password = password;
+        //    Username = username;
+        //}
 
         public NutanixCredential(string uri, PSCredential PSCredential)
         {
@@ -80,6 +80,7 @@ namespace Nutanix.Powershell.Models
             Uri = _uri;
             Password = PSCredential.Password;
             Username = PSCredential.UserName;
+            this.PSCredential = PSCredential;
 
         }
 
