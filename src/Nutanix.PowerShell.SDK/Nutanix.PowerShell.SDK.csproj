@@ -21,7 +21,7 @@
     <PackageReference Include="Roslynator.Analyzers" Version="1.9.0" />                               <!-- from https://www.nuget.org/packages/Roslynator.Analyzers/ -->
     <PackageReference Include="SonarAnalyzer.CSharp" Version="7.2.0.5463" />                          <!-- from https://www.nuget.org/packages/SonarAnalyzer.CSharp/ -->
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" />                         <!-- from https://www.nuget.org/packages/stylecop.analyzers/ -->
-    <PackageReference Include="System.Management.Automation" Version="6.1.0-preview.3" />             <!-- from https://powershell.myget.org/feed/powershell-core/package/nuget/System.Management.Automation -->
+    <PackageReference Include="System.Management.Automation" Version="6.1.6" />             <!-- from https://powershell.myget.org/feed/powershell-core/package/nuget/System.Management.Automation -->
   </ItemGroup>
 
 </Project>
